@@ -13,6 +13,16 @@ public class TravelTracker implements ScanListener {
     static final BigDecimal OFF_PEAK_JOURNEY_PRICE = new BigDecimal(2.40);
     static final BigDecimal PEAK_JOURNEY_PRICE = new BigDecimal(3.20);
 
+    // REQ: Long and Short journey prices or Peak and Off Peak
+    static final BigDecimal OFF_PEAK_LONG_JOURNEY_PRICE = new BigDecimal(2.70);
+    static final BigDecimal OFF_PEAK_SHORT_JOURNEY_PRICE = new BigDecimal(1.60);
+    static final BigDecimal PEAK_LONG_JOURNEY_PRICE = new BigDecimal(3.80);
+    static final BigDecimal PEAK_SHORT_JOURNEY_PRICE = new BigDecimal(2.90);
+
+    // REQ: Daily Cap prices for Peak and Off Peak Journeys
+    static final BigDecimal OFF_PEAK_DAILY_CAP = new BigDecimal(7.00);
+    static final BigDecimal PEAK_DAILY_CAP = new BigDecimal(9.00);
+
     private final List<JourneyEvent> eventLog = new ArrayList<JourneyEvent>();
     private final Set<UUID> currentlyTravelling = new HashSet<UUID>();
 
@@ -46,7 +56,9 @@ public class TravelTracker implements ScanListener {
             }
         }
 
+        // Old System Calculations
         BigDecimal customerTotal = new BigDecimal(0);
+
         for (Journey journey : journeys) {
             BigDecimal journeyPrice = OFF_PEAK_JOURNEY_PRICE;
             if (peak(journey)) {
@@ -55,7 +67,40 @@ public class TravelTracker implements ScanListener {
             customerTotal = customerTotal.add(journeyPrice);
         }
 
-        PaymentsSystem.getInstance().charge(customer, journeys, roundToNearestPenny(customerTotal));
+        // REQ: Long and Short journey prices
+        BigDecimal newCustomerTotal = new BigDecimal(0);
+        int totPeakTrips = 0;
+
+        for (Journey journey : journeys){
+            BigDecimal journeyPrice = OFF_PEAK_SHORT_JOURNEY_PRICE;
+
+            // Get duration of journey
+            String journeyDurationStr = journey.durationMinutes();
+            int journeyDuration = Integer.parseInt(journeyDurationStr.substring(0, journeyDurationStr.indexOf(":")));
+
+            // Calculate costs
+            if (peak(journey)) {
+                journeyPrice = PEAK_SHORT_JOURNEY_PRICE;
+
+                if (journeyDuration > 25) journeyPrice = PEAK_LONG_JOURNEY_PRICE;
+
+                totPeakTrips++;
+            }
+
+            else if (journeyDuration > 25) journeyPrice = OFF_PEAK_LONG_JOURNEY_PRICE;
+
+            newCustomerTotal = newCustomerTotal.add(journeyPrice);
+        }
+
+        // REQ: Daily Caps
+        if (totPeakTrips > 0 && newCustomerTotal.compareTo(PEAK_DAILY_CAP) > 1) newCustomerTotal = PEAK_DAILY_CAP;
+        else if (totPeakTrips == 0 && newCustomerTotal.compareTo(OFF_PEAK_DAILY_CAP) > 1) newCustomerTotal = OFF_PEAK_DAILY_CAP;
+
+        // Old System
+        //PaymentsSystem.getInstance().charge(customer, journeys, roundToNearestPenny(customerTotal));
+
+        // New System
+        PaymentsSystem.getInstance().charge(customer, journeys, roundToNearestPenny(newCustomerTotal));
     }
 
     private BigDecimal roundToNearestPenny(BigDecimal poundsAndPence) {
