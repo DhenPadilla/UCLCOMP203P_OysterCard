@@ -157,6 +157,7 @@
         <option value="$PROJECT_DIR$/src/test/java/com/tfl/billing/JourneyEventTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tfl/billing/CostCalculator.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/tfl/billing/JourneyTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tfl/billing/TravelTracker.java" />
       </list>
     </option>
   </component>
