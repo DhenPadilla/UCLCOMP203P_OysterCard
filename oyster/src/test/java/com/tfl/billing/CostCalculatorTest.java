@@ -3,15 +3,11 @@ package com.tfl.billing;
 import static org.mockito.Mockito.*;
 
 import com.oyster.OysterCard;
-import com.oyster.ScanListener;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 
-import com.tfl.underground.OysterReaderLocator;
-import com.tfl.underground.Station;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +17,7 @@ public class CostCalculatorTest {
 
    TravelTracker tracker = new TravelTracker();
 
-   // @Rule
+   //@Rule
    OysterCardReader mockedReader = mock(OysterCardReader.class);
    List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
 

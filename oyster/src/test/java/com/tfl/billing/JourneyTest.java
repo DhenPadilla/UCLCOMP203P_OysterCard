@@ -19,7 +19,7 @@ public class JourneyTest {
 
     @Test
     public void originIdTest() {
-        assertEquals(testJourney.originId(), journeyStart.cardId());
+        assertEquals(testJourney.originId(), journeyStart.readerId());
     }
 
     @Test
