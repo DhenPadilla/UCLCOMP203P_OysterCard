@@ -78,8 +78,8 @@ public class CostCalculator {
 
 
         // REQ: Daily Caps
-        if (totPeakTrips > 0 && newCustomerTotal.compareTo(PEAK_DAILY_CAP) > 1) newCustomerTotal = PEAK_DAILY_CAP;
-        else if (totPeakTrips == 0 && newCustomerTotal.compareTo(OFF_PEAK_DAILY_CAP) > 1) newCustomerTotal = OFF_PEAK_DAILY_CAP;
+        if (totPeakTrips > 0 && (PEAK_DAILY_CAP.doubleValue() - newCustomerTotal.doubleValue()) < 1) newCustomerTotal = PEAK_DAILY_CAP;
+        else if (totPeakTrips == 0 && (OFF_PEAK_DAILY_CAP.doubleValue() - newCustomerTotal.doubleValue()) < 1) newCustomerTotal = OFF_PEAK_DAILY_CAP;
 
         customerTotal = customerTotal.add(newCustomerTotal);
         return roundToNearestPenny(customerTotal);
