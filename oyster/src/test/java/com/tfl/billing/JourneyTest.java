@@ -12,9 +12,10 @@ import static org.junit.Assert.*;
 public class JourneyTest {
     private UUID cardID = UUID.randomUUID();
     private UUID readerID = UUID.randomUUID();
+    ClockInterface clock = new SystemClock();
 
-    private JourneyStart journeyStart = new JourneyStart(cardID, readerID);
-    private JourneyEnd journeyEnd = new JourneyEnd(cardID, readerID);
+    private JourneyStart journeyStart = new JourneyStart(cardID, readerID, clock);
+    private JourneyEnd journeyEnd = new JourneyEnd(cardID, readerID, clock);
     private Journey testJourney = new Journey(journeyStart, journeyEnd);
 
     @Test

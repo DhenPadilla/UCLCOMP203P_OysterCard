@@ -7,7 +7,9 @@ import java.util.UUID;
 
 public class JourneyStart extends JourneyEvent {
 
-    private long time;
+    public JourneyStart(UUID cardId, UUID readerId, ClockInterface clock) {
+        super(cardId, readerId, clock);
+    }
 
     public JourneyStart(UUID cardId, UUID readerId) {
         super(cardId, readerId);

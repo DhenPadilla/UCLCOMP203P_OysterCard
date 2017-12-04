@@ -9,34 +9,29 @@ import static org.junit.Assert.*;
 public class JourneyEventTest {
     private UUID card = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
     private UUID reader = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
-    private JourneyStart myJourney = new JourneyStart(card, reader);
-    private JourneyEnd myJourneyEnd = new JourneyEnd(card, reader);
+    private ClockInterface clock = new SystemClock();
+
+    private JourneyStart journeyStart = new JourneyStart(card, reader, clock);
+    private JourneyEnd journeyEnd = new JourneyEnd(card, reader, clock);
 
     @Test
-    public void checkIfTheCardReaderWorksForUserID() {
-        assertEquals(card, myJourney.cardId());
+    public void checkCardReaderWorksForUserID() {
+        assertEquals(card, journeyStart.cardId());
     }
 
     @Test
-    public void checkIfTheCardReaderWorksForReaderID() {
-        assertEquals(reader, myJourney.readerId());
+    public void checkCardReaderWorksForReaderID() {
+        assertEquals(reader, journeyStart.readerId());
     }
 
     @Test
-    public void checkIfTheCardReaderClosesForUID() {
-        assertEquals(card, myJourneyEnd.cardId());
+    public void checkCardReaderClosesForUID() {
+        assertEquals(card, journeyEnd.cardId());
     }
 
     @Test
-    public void checkIfTheCardReaderClosesForReaderID() {
-        assertEquals(reader, myJourneyEnd.readerId());
+    public void checkCardReaderClosesForReaderID() {
+        assertEquals(reader, journeyEnd.readerId());
     }
-
-    /*
-    @Test
-    public void checkIfItCalculatesTimeCorrectly() throws Exception {
-        assertEquals(System.currentTimeMillis(), myJourney.time());
-    }
-    */
 
 }
