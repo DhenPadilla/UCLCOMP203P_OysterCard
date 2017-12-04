@@ -2,17 +2,12 @@ package com.tfl.billing;
 
 import static org.mockito.Mockito.*;
 
-import com.oyster.OysterCard;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 
 import org.junit.Test;
 
-import java.math.MathContext;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +30,7 @@ public class CostCalculatorTest {
       for (int i = 0; i < 2; i += 2) {
          JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
          JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-         journeys.add(new Journey(start, end));
+         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 5).build());
       }
 
       CostCalculator calculator = new CostCalculator(journeys);
@@ -44,7 +39,7 @@ public class CostCalculatorTest {
       String actualPrice = "2.90";
 
       assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
-      assertEquals(totalPrice, actualPrice);
+      assertEquals(actualPrice, totalPrice);
    }
 
 
@@ -65,7 +60,7 @@ public class CostCalculatorTest {
          JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
          JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
-         journeys.add(new Journey(start, end));
+         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
       }
 
       CostCalculator calculator = new CostCalculator(journeys);
@@ -94,7 +89,7 @@ public class CostCalculatorTest {
          JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
          JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
-         journeys.add(new Journey(start, end));
+         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(16, 5).build());
       }
 
       CostCalculator calculator = new CostCalculator(journeys);
@@ -123,7 +118,7 @@ public class CostCalculatorTest {
          JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
          JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
-         journeys.add(new Journey(start, end));
+         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
       }
 
       CostCalculator calculator = new CostCalculator(journeys);
