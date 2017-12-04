@@ -3,7 +3,6 @@ package com.tfl.billing;
 import static org.mockito.Mockito.*;
 
 import com.oyster.OysterCard;
-import com.oyster.OysterCardReader;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 
@@ -26,15 +25,16 @@ public class CostCalculatorTest {
       List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
       HashMap<Integer, OysterCardReader> readers = new HashMap<Integer, OysterCardReader>();
 
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
+
       for(int i = 0 ; i < 2; i++) {
-         OysterCardReader mockReader = mock(OysterCardReader.class);
          readers.put(i, mockReader);
       }
 
       for (int i = 0; i < 2; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).id());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).id());
-
+         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
          journeys.add(new Journey(start, end));
       }
 
@@ -43,6 +43,7 @@ public class CostCalculatorTest {
       String totalPrice = calculator.getCustomerTotal().toString();
       String actualPrice = "2.90";
 
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
       assertEquals(totalPrice, actualPrice);
    }
 
@@ -57,11 +58,12 @@ public class CostCalculatorTest {
       for(int i = 0 ; i < 2; i++) {
          OysterCardReader mockReader = mock(OysterCardReader.class);
          readers.put(i, mockReader);
+         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
       }
 
       for (int i = 0; i < 2; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).id());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).id());
+         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
          journeys.add(new Journey(start, end));
       }
@@ -85,11 +87,12 @@ public class CostCalculatorTest {
       for(int i = 0 ; i < 10; i++) {
          OysterCardReader mockReader = mock(OysterCardReader.class);
          readers.put(i, mockReader);
+         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
       }
 
       for (int i = 0; i < 10; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).id());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).id());
+         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
          journeys.add(new Journey(start, end));
       }
@@ -113,11 +116,12 @@ public class CostCalculatorTest {
       for(int i = 0 ; i < 10; i++) {
          OysterCardReader mockReader = mock(OysterCardReader.class);
          readers.put(i, mockReader);
+         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
       }
 
       for (int i = 0; i < 10; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).id());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).id());
+         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
 
          journeys.add(new Journey(start, end));
       }
