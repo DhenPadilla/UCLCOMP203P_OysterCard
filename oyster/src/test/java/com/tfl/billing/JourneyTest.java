@@ -13,20 +13,12 @@ import static org.junit.Assert.*;
 public class JourneyTest {
     private UUID cardID = UUID.randomUUID();
     private UUID readerID = UUID.randomUUID();
-    //ClockInterface clock = new SystemClock();
-
-    public static Date peakDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE, 2017-12-01);
-        calendar.set(Calendar.MINUTE, 25);
-        calendar.set(Calendar.HOUR, 17);
-        return calendar.getTime();
-    }
+    ClockInterface clock = new SystemClock();
 
     private JourneyStart journeyStart = new JourneyStart(cardID, readerID);
     private JourneyEnd journeyEnd = new JourneyEnd(cardID, readerID);
-    private Journey testJourney = new Journey.JourneyBuilder(journeyStart, journeyEnd).setStartTime(1).build();
-    /*
+    private Journey testJourney = new Journey.JourneyBuilder(journeyStart, journeyEnd).build();
+
     @Test
     public void originIdTest() {
         assertEquals(testJourney.originId(), journeyStart.readerId());
@@ -66,6 +58,6 @@ public class JourneyTest {
     public void formattedEndTimeTest() throws InterruptedException {
         assertEquals(testJourney.formattedEndTime(),(SimpleDateFormat.getInstance().format(new Date(journeyEnd.time()))));
     }
-    */
+
 
 }

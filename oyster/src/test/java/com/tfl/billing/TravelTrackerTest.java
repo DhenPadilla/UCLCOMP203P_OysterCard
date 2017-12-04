@@ -15,6 +15,7 @@ public class TravelTrackerTest {
 
     @Test
     public void connect() throws Exception {
+
     }
 
     @Test
@@ -26,25 +27,4 @@ public class TravelTrackerTest {
     public void oldSystemPeakTest() {
         fail("TODO");
     }
-
-    @Test
-    public void newSystemPeakTest() {
-        fail("TODO");
-    }
-
-    @Test
-    public void newSystemOffPeakTest() {
-        fail("TODO");
-    }
-
-    @Test
-    public void newSystemJourneyCapPeakTest() {
-        fail("TODO");
-    }
-
-    @Test
-    public void newSystemJourneyCapOffPeakPeakTest() {
-        fail("TODO");
-    }
-
 }

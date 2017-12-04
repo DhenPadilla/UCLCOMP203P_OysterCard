@@ -23,39 +23,23 @@ public class Journey {
     }
 
     public String formattedStartTime() {
-    //    if (startOfJourneyTime == null) {
-    //        return format(start.time());
-    //    }
-    //    else {
-            return format(startOfJourneyTime.getTime());
-    //    }
+        return (startOfJourneyTime == null) ? format(start.time()) : format(startOfJourneyTime.getTime());
     }
 
     public String formattedEndTime() {
-        return format(endOfJourneyTime.getTime());
+        return (startOfJourneyTime == null) ? format(end.time()) : format(endOfJourneyTime.getTime());
     }
 
     public Date startTime() {
-    //    if (startOfJourneyTime == null) {
-    //        return new Date(start.time());
-    //    }
-    //    else {
-            return  startOfJourneyTime;
-    //    }
+        return (startOfJourneyTime == null) ? new Date(start.time()) : startOfJourneyTime;
     }
 
     public Date endTime() {
-        //return new Date(end.time());
-        return endOfJourneyTime;
+        return (endOfJourneyTime == null) ? new Date(end.time()) : endOfJourneyTime;
     }
 
     public int durationSeconds() {
-   //     if (startOfJourneyTime == null) {
-   //         return (int) ((end.time() - start.time()) / 1000);
-   //     }
-   //     else {
-            return (int) ((endOfJourneyTime.getTime() - startOfJourneyTime.getTime()));
-   //     }
+        return (startOfJourneyTime == null) ? (int) ((end.time() - start.time()) / 1000) : (int) ((endOfJourneyTime.getTime() - startOfJourneyTime.getTime()));
     }
 
     public String durationMinutes() {
@@ -65,14 +49,6 @@ public class Journey {
     private String format(long time) {
         return SimpleDateFormat.getInstance().format(new Date(time));
     }
-
-
-    /*
-    public Journey(JourneyEvent start, JourneyEvent end) {
-        this.start = start;
-        this.end = end;
-    }
-    */
 
     private Journey(JourneyBuilder journeyBuilder) {
         this.start = journeyBuilder.start;

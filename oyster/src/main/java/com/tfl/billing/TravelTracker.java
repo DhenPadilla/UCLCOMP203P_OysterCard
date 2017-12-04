@@ -23,25 +23,6 @@ public class TravelTracker implements ScanListener {
     }
 
     private void totalJourneysFor(Customer customer) {
-        /*List<JourneyEvent> customerJourneyEvents = new ArrayList<JourneyEvent>();
-        for (JourneyEvent journeyEvent : eventLog) {
-            if (journeyEvent.cardId().equals(customer.cardId())) {
-                customerJourneyEvents.add(journeyEvent);
-            }
-        }
-
-        List<Journey> journeys = new ArrayList<Journey>();
-
-        JourneyEvent start = null;
-        for (JourneyEvent event : customerJourneyEvents) {
-            if (event instanceof JourneyStart) {
-                start = event;
-            }
-            if (event instanceof JourneyEnd && start != null) {
-                journeys.add(new Journey(start, event));
-                start = null;
-            }
-        }*/
 
         RecordJourneys record = new RecordJourneys(eventLog, customer);
         List<Journey> journeys = record.getJourneys();
