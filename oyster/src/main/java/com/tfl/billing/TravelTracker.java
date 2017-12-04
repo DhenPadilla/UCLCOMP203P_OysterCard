@@ -23,7 +23,7 @@ public class TravelTracker implements ScanListener {
     }
 
     private void totalJourneysFor(Customer customer) {
-        List<JourneyEvent> customerJourneyEvents = new ArrayList<JourneyEvent>();
+        /*List<JourneyEvent> customerJourneyEvents = new ArrayList<JourneyEvent>();
         for (JourneyEvent journeyEvent : eventLog) {
             if (journeyEvent.cardId().equals(customer.cardId())) {
                 customerJourneyEvents.add(journeyEvent);
@@ -41,7 +41,11 @@ public class TravelTracker implements ScanListener {
                 journeys.add(new Journey(start, event));
                 start = null;
             }
-        }
+        }*/
+
+        RecordJourneys record = new RecordJourneys(eventLog, customer);
+        List<Journey> journeys = record.getJourneys();
+
 
         CostCalculator calculator = new CostCalculator(journeys);
         BigDecimal totalCostForToday = calculator.getCustomerTotal();
@@ -51,8 +55,8 @@ public class TravelTracker implements ScanListener {
     }
 
 
-    public void connect(OysterCardReader... cardReaders) {
-        for (OysterCardReader cardReader : cardReaders) {
+    public void connect(com.oyster.OysterCardReader... cardReaders) {
+        for (com.oyster.OysterCardReader cardReader : cardReaders) {
             cardReader.register(this);
         }
     }
