@@ -14,9 +14,4 @@ public class JourneyStart extends JourneyEvent {
     public JourneyStart(UUID cardId, UUID readerId) {
         super(cardId, readerId);
     }
-
-    //Used for testing
-    public void setTime(long time) {
-       this.time =  time;
-    }
 }

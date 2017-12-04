@@ -33,7 +33,7 @@ public class RecordJourneys {
                 start = event;
             }
             if (event instanceof JourneyEnd && start != null) {
-                journeys.add(new Journey(start, event));
+                journeys.add(new Journey.JourneyBuilder(start, event).build());
             }
         }
 
