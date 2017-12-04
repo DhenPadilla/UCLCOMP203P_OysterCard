@@ -1,10 +1,13 @@
 package com.tfl.billing;
 
+import com.tfl.underground.OysterReaderLocator;
+import com.tfl.underground.Station;
 import org.junit.Test;
 import com.oyster.*;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 import com.tfl.external.PaymentsSystem;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +15,6 @@ public class TravelTrackerTest {
 
     @Test
     public void connect() throws Exception {
-        fail("TODO");
     }
 
     @Test
