@@ -3,10 +3,6 @@ package com.tfl.billing;
 import java.math.BigDecimal;
 
 public class OffPeakPrice implements Price {
-    //OLD
-    private final BigDecimal OLD_OFF_PEAK_JOURNEY_PRICE = new BigDecimal(2.40);
-
-    //NEW
     private final BigDecimal OFF_PEAK_LONG_JOURNEY_PRICE = new BigDecimal(2.70);
     private final BigDecimal OFF_PEAK_SHORT_JOURNEY_PRICE = new BigDecimal(1.60);
 
@@ -26,11 +22,6 @@ public class OffPeakPrice implements Price {
     @Override
     public BigDecimal getShort() {
         return OFF_PEAK_SHORT_JOURNEY_PRICE;
-    }
-
-    @Override
-    public BigDecimal getOldPrice() {
-        return OLD_OFF_PEAK_JOURNEY_PRICE;
     }
 
     public Double getDoubleCap() {

@@ -18,17 +18,6 @@ public class CostCalculator {
         journeysTaken = journeys;
     }
 
-    public BigDecimal getOldCustomerTotal() { //OLD PRICES
-        BigDecimal customerTotal = new BigDecimal(0);
-        for (Journey j: journeysTaken) {
-            BigDecimal journeyPrice = offPeaks.getOldPrice();
-            if (peak(j)) { journeyPrice = peaks.getOldPrice(); }
-            customerTotal = customerTotal.add(journeyPrice);
-        }
-        return customerTotal;
-    }
-
-
     public BigDecimal getCustomerTotal() { //NEW PRICES
         BigDecimal customerTotal = new BigDecimal(0);
         boolean peak = false;
