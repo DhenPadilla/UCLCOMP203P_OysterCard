@@ -9,10 +9,9 @@ import static org.junit.Assert.*;
 public class JourneyEventTest {
     private UUID card = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
     private UUID reader = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
-    private ClockInterface clock = new SystemClock();
 
-    private JourneyStart journeyStart = new JourneyStart(card, reader, clock);
-    private JourneyEnd journeyEnd = new JourneyEnd(card, reader, clock);
+    private JourneyStart journeyStart = new JourneyStart(card, reader);
+    private JourneyEnd journeyEnd = new JourneyEnd(card, reader);
 
     @Test
     public void checkCardReaderWorksForUserID() {
