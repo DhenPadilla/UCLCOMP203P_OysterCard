@@ -1,22 +1,18 @@
 package com.tfl.billing;
 
-import com.tfl.underground.OysterReaderLocator;
-import com.tfl.underground.Station;
+import com.oyster.OysterCard;
 import org.junit.Test;
-import com.oyster.*;
-import com.tfl.external.Customer;
-import com.tfl.external.CustomerDatabase;
-import com.tfl.external.PaymentsSystem;
-import org.mockito.Mockito;
+
+import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TravelTrackerTest {
 
     @Test
-    public void connect() throws Exception {
-
-    }
+    public void connect() throws Exception {}
 
     @Test
     public void oldSystemOffPeakTest() {
@@ -27,4 +23,7 @@ public class TravelTrackerTest {
     public void oldSystemPeakTest() {
         fail("TODO");
     }
+
+    @Test
+    public void cardScannedCurrentlyTravellingTest() { fail("TODO"); }
 }

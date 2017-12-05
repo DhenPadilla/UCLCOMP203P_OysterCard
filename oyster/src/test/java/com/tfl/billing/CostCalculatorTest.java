@@ -13,120 +13,144 @@ import static org.junit.Assert.*;
 
 public class CostCalculatorTest {
 
-   @Test
-   public void checkForCorrectCalculationSinglePeakShort() {
+   private List<Journey> addJourneys(boolean peak, boolean longDuration, boolean cap, OysterCardReader mockReader) {
       List<Journey> journeys = new ArrayList<Journey>();
 
       List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
+
+      HashMap<Integer, OysterCardReader> readers = addReaders(mockReader, cap);
+
+      if(!cap) {
+         for (int i = 0; i < 2; i += 2) {
+            JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+            JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
+            if (peak && longDuration) {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 30).build());
+            } else if (peak && !longDuration) {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 5).build());
+            } else if (!peak && longDuration) {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 30).build());
+            } else {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
+            }
+         }
+      }
+      else {
+         for (int i = 0; i < 10; i += 2) {
+            JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
+            JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
+            if (peak) {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 10).build());
+            }
+            else if (!peak) {
+               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 10).build());
+            }
+         }
+      }
+
+      return journeys;
+   }
+
+   private HashMap<Integer, OysterCardReader> addReaders(OysterCardReader mockReader, boolean cap) {
       HashMap<Integer, OysterCardReader> readers = new HashMap<Integer, OysterCardReader>();
 
-      OysterCardReader mockReader = mock(OysterCardReader.class);
       when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
 
-      for(int i = 0 ; i < 2; i++) {
-         readers.put(i, mockReader);
+      if(!cap) {
+         for (int i = 0; i < 2; i++) {
+            readers.put(i, mockReader);
+         }
       }
+      else {
+         for (int i = 0; i < 20; i++) {
+            readers.put(i, mockReader);
+         }
+      }
+      return readers;
+   }
 
-      for (int i = 0; i < 2; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 5).build());
-      }
+   @Test
+   public void checkForCorrectCalculationSinglePeakShort() {
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(true, false, false, mockReader);
 
       CostCalculator calculator = new CostCalculator(journeys);
 
-      String totalPrice = calculator.getCustomerTotal().toString();
-      String actualPrice = "2.90";
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 2.90;
 
       assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
-      assertEquals(actualPrice, totalPrice);
+      assertEquals(totalPrice, actualPrice, 0);
    }
 
+   @Test
+   public void checkForCorrectCalculationSinglePeakLong() {
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(true, true, false, mockReader);
+
+      CostCalculator calculator = new CostCalculator(journeys);
+
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 3.80;
+
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
+      assertEquals(totalPrice, actualPrice, 0);
+   }
 
    @Test
    public void checkForCorrectCalculationSingleOffPeakShort() {
-      List<Journey> journeys = new ArrayList<Journey>();
-
-      List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
-      HashMap<Integer, OysterCardReader> readers = new HashMap<Integer, OysterCardReader>();
-
-      for(int i = 0 ; i < 2; i++) {
-         OysterCardReader mockReader = mock(OysterCardReader.class);
-         readers.put(i, mockReader);
-         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
-      }
-
-      for (int i = 0; i < 2; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-
-         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
-      }
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(false, false,false, mockReader);
 
       CostCalculator calculator = new CostCalculator(journeys);
 
-      String totalPrice = calculator.getCustomerTotal().toString();
-      String actualPrice = "1.60";
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 1.60;
 
-      assertEquals(totalPrice, actualPrice);
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
+      assertEquals(totalPrice, actualPrice, 0);
    }
 
+   @Test
+   public void checkForCorrectCalculationSingleOffPeakLong() {
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(false, true, false, mockReader);
+
+      CostCalculator calculator = new CostCalculator(journeys);
+
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 2.70;
+
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
+      assertEquals(totalPrice, actualPrice, 0);
+   }
 
    @Test
    public void checkForCorrectCalculationPeakCap() {
-      List<Journey> journeys = new ArrayList<Journey>();
-
-      List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
-      HashMap<Integer, OysterCardReader> readers = new HashMap<Integer, OysterCardReader>();
-
-      for(int i = 0 ; i < 10; i++) {
-         OysterCardReader mockReader = mock(OysterCardReader.class);
-         readers.put(i, mockReader);
-         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
-      }
-
-      for (int i = 0; i < 10; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-
-         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(16, 5).build());
-      }
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(true, true, true, mockReader);
 
       CostCalculator calculator = new CostCalculator(journeys);
 
-      String totalPrice = calculator.getCustomerTotal().toString();
-      String expectedPrice = "9.00";
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 9.00;
 
-      assertEquals(expectedPrice, totalPrice);
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
+      assertEquals(totalPrice, actualPrice, 0);
    }
 
 
    @Test
    public void checkForCorrectCalculationOffPeakCap() {
-      List<Journey> journeys = new ArrayList<Journey>();
-
-      List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
-      HashMap<Integer, OysterCardReader> readers = new HashMap<Integer, OysterCardReader>();
-
-      for(int i = 0 ; i < 10; i++) {
-         OysterCardReader mockReader = mock(OysterCardReader.class);
-         readers.put(i, mockReader);
-         when(mockReader.getReaderId()).thenReturn(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
-      }
-
-      for (int i = 0; i < 10; i += 2) {
-         JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
-         JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-
-         journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
-      }
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(false, true, true, mockReader);
 
       CostCalculator calculator = new CostCalculator(journeys);
 
-      String totalPrice = calculator.getCustomerTotal().toString();
-      String expectedPrice = "7.00";
+      double totalPrice = calculator.getCustomerTotal().doubleValue();
+      double actualPrice = 7.00;
 
-      assertEquals(expectedPrice, totalPrice);
+      assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
+      assertEquals(totalPrice, actualPrice, 0);
    }
-
 }
