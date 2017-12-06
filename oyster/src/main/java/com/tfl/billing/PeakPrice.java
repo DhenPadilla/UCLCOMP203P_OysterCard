@@ -17,5 +17,5 @@ public class PeakPrice implements Price {
     @Override
     public BigDecimal getShort() { return PEAK_SHORT_JOURNEY_PRICE; }
 
-    public Double getDoubleCap() { return PEAK_DAILY_CAP.doubleValue(); }
+    public Double getDoubleCap() { return getDailyCap().doubleValue(); }
 }

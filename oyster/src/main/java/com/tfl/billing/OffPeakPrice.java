@@ -24,7 +24,5 @@ public class OffPeakPrice implements Price {
         return OFF_PEAK_SHORT_JOURNEY_PRICE;
     }
 
-    public Double getDoubleCap() {
-        return OFF_PEAK_DAILY_CAP.doubleValue();
-    }
+    public Double getDoubleCap() { return getDailyCap().doubleValue(); }
 }

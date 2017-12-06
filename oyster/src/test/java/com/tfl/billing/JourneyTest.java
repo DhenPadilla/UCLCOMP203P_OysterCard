@@ -58,6 +58,4 @@ public class JourneyTest {
     public void formattedEndTimeTest() throws InterruptedException {
         assertEquals(testJourney.formattedEndTime(),(SimpleDateFormat.getInstance().format(new Date(journeyEnd.time()))));
     }
-
-
 }
