@@ -21,18 +21,16 @@ public class CostCalculatorTest {
       HashMap<Integer, OysterCardReader> readers = addReaders(mockReader, cap);
 
       if(!cap) {
-         for (int i = 0; i < 2; i += 2) {
-            JourneyStart start = new JourneyStart(customers.get(i).cardId(), readers.get(i).getReaderId());
-            JourneyEnd end = new JourneyEnd(customers.get(i).cardId(), readers.get((i + 1)).getReaderId());
-            if (peak && longDuration) {
-               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 30).build());
-            } else if (peak && !longDuration) {
-               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 5).build());
-            } else if (!peak && longDuration) {
-               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 30).build());
-            } else {
-               journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
-            }
+         JourneyStart start = new JourneyStart(customers.get(0).cardId(), readers.get(0).getReaderId());
+         JourneyEnd end = new JourneyEnd(customers.get(1).cardId(), readers.get(1).getReaderId());
+         if (peak && longDuration) {
+            journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 30).build());
+         } else if (peak && !longDuration) {
+            journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(18).setEndTime(18, 5).build());
+         } else if (!peak && longDuration) {
+            journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 30).build());
+         } else {
+            journeys.add(new Journey.JourneyBuilder(start, end).setStartTime(13).setEndTime(13, 5).build());
          }
       }
       else {

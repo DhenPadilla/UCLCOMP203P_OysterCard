@@ -47,7 +47,7 @@ public class TravelTracker implements ScanListener {
 
     @Override
     public boolean cardScanned(UUID cardId, UUID readerId) {
-        boolean cardScanSuccess = false;
+        boolean cardScanSuccess;
 
         if (currentlyTravelling.contains(cardId)) {
             eventLog.add(new JourneyEnd(cardId, readerId));
