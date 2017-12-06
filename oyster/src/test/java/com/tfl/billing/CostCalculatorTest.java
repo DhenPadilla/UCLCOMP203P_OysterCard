@@ -153,4 +153,15 @@ public class CostCalculatorTest {
       assertEquals(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), mockReader.getReaderId());
       assertEquals(totalPrice, actualPrice, 0);
    }
+
+
+   @Test
+   public void peakTimeBooleanTest() {
+      OysterCardReader mockReader = mock(OysterCardReader.class);
+      List<Journey> journeys = addJourneys(true,false,false, mockReader);
+
+      CostCalculator calculator = new CostCalculator(journeys);
+
+      assertTrue(calculator.peak(journeys.get(0)));
+   }
 }

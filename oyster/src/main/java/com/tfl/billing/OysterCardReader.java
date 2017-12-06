@@ -1,7 +1,8 @@
 package com.tfl.billing;
 
 import com.oyster.OysterCard;
-import com.oyster.ScanListener;
+
+import com.tfl.billing.ScanListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,24 +18,15 @@ public class CostCalculator {
         journeysTaken = journeys;
     }
 
-    public BigDecimal getOldCustomerTotal() { //OLD PRICES
-        BigDecimal customerTotal = new BigDecimal(0);
-        for (Journey j: journeysTaken) {
-            BigDecimal journeyPrice = offPeaks.getOldPrice();
-            if (peak(j)) { journeyPrice = peaks.getOldPrice(); }
-            customerTotal = customerTotal.add(journeyPrice);
-        }
-        return customerTotal;
-    }
-
-
     public BigDecimal getCustomerTotal() { //NEW PRICES
         BigDecimal customerTotal = new BigDecimal(0);
         boolean peak = false;
         for (Journey j : journeysTaken){
             BigDecimal journeyPrice = offPeaks.getShort();
+
             // Get duration of journey
             String journeyDurationStr = j.durationMinutes();
+
             int journeyDuration = Integer.parseInt(journeyDurationStr.substring(0, journeyDurationStr.indexOf(":")));
             // Calculate costs
             if (peak(j)) {
@@ -55,7 +46,6 @@ public class CostCalculator {
         if (peak && (peaks.getDoubleCap() - customerTotal.doubleValue()) < 1) customerTotal = peaks.getDailyCap();
         else if (!peak && (offPeaks.getDoubleCap() - customerTotal.doubleValue()) < 1) customerTotal = offPeaks.getDailyCap();
 
-        //customerTotal = customerTotal.add(customerTotal);
         return roundToNearestPenny(customerTotal);
     }
 
@@ -63,7 +53,7 @@ public class CostCalculator {
         return poundsAndPence.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
-    private boolean peak(Journey journey) {
+    public boolean peak(Journey journey) {
         return peak(journey.startTime()) || peak(journey.endTime());
     }
 

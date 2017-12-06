@@ -6,5 +6,4 @@ public interface Price {
    BigDecimal getDailyCap();
    BigDecimal getLong();
    BigDecimal getShort();
-   BigDecimal getOldPrice();
 }
