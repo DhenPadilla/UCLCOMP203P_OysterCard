@@ -1,7 +1,10 @@
 package com.tfl.billing;
 
 import com.tfl.external.Customer;
+import com.tfl.underground.OysterReaderLocator;
+import com.tfl.underground.Station;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +18,13 @@ public class TravelTrackerTest {
     OysterCardReader reader = mock(OysterCardReader.class);
 
     @Test
-    public void connect() throws Exception {}
+    public void connect() throws Exception {
+        TravelTracker tracker = new TravelTracker();
+        OysterCardReader paddingtonMockReader = mock(OysterCardReader.class);
+
+        tracker.connect(paddingtonMockReader);
+        Mockito.verify(paddingtonMockReader).register(tracker);
+    }
 
     @Test
     public void chargeAccountsMethodTest() {

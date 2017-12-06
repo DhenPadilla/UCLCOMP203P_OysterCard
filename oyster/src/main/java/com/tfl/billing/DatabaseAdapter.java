@@ -15,8 +15,9 @@ public class DatabaseAdapter implements DatabaseInterface {
     private static DatabaseAdapter instance = new DatabaseAdapter();
 
     //private List<Customer> customers = new ArrayList<Customer>();
+    private List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
 
-    private List<Customer> customers = new ArrayList<Customer>() {
+    /*private List<Customer> customers = new ArrayList<Customer>() {
         {
             this.add(new Customer("Fred Bloggs", new OysterCard("38400000-8cf0-11bd-b23e-10b96e4ef00d")));
             this.add(new Customer("Shelly Cooper", new OysterCard("3f1b3b55-f266-4426-ba1b-bcc506541866")));
@@ -32,7 +33,7 @@ public class DatabaseAdapter implements DatabaseInterface {
             this.add(new Customer("Emily Scott", new OysterCard("267b3378-592d-4da7-825d-3252982d49ba")));
             this.add(new Customer("Yeet Boi", new OysterCard("19aedd1c-4d23-40e5-92bc-b3315c1473f2")));
         }
-    };
+    };*/
 
     public static DatabaseAdapter getInstance() {
         return instance;

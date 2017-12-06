@@ -3,8 +3,6 @@ package com.tfl.billing;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 
-import com.tfl.billing.ScanListener;
-
 import java.math.BigDecimal;
 import java.util.*;
 
