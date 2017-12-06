@@ -12,12 +12,16 @@ import static org.mockito.Mockito.when;
 
 public class TravelTrackerTest {
 
-    //DatabaseInterface mockDatabase = mock(DatabaseInterface.class);
-
     OysterCardReader reader = mock(OysterCardReader.class);
 
     @Test
     public void connect() throws Exception {}
+
+    @Test
+    public void chargeAccountsMethodTest() {
+        TravelTracker tracker = new TravelTracker();
+        tracker.chargeAccounts();
+    }
 
     @Test
     public void cardScannedCurrentlyTravellingTest() {
