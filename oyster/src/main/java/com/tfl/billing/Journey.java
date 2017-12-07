@@ -75,7 +75,7 @@ public class Journey {
 
         public JourneyBuilder setStartTime(int hour) {
             Calendar cal = Calendar.getInstance();
-            cal.set(2017, 12, 01, hour, 20);
+            cal.set(Calendar.HOUR, hour);
             Date date = cal.getTime();
             this.startOfJourneyTime = date;
             return this;
@@ -83,7 +83,8 @@ public class Journey {
 
         public JourneyBuilder setEndTime(int hour, int minutes) {
             Calendar cal = Calendar.getInstance();
-            cal.set(2017, 12, 01, hour, minutes);
+            cal.set(Calendar.HOUR, hour);
+            cal.set(Calendar.MINUTE, minutes);
             Date date = cal.getTime();
             this.endOfJourneyTime = date;
             return this;
